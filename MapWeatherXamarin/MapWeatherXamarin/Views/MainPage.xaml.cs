@@ -1,10 +1,9 @@
 ﻿using MapWeatherXamarin.ViewModel;
-using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace MapWeatherXamarin.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
         public MainPage()
         {

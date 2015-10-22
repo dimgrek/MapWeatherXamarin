@@ -3,13 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MapWeatherXamarin.Views.MainPage">
-  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
   <StackLayout Padding="0,20,0,0">
     <Button Text="Get coordinates" Command="{Binding GetCoordCommand}" />
     <maps:Map WidthRequest="320" HeightRequest="200"
           x:Name="MyMap"
           IsShowingUser="true"
-          MapType="Hybrid"
-        />
+          MapType="Hybrid"/>
   </StackLayout>
 </ContentPage>
