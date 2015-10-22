@@ -11,6 +11,7 @@ namespace MapWeatherXamarin.Views
             var vm = new MainViewModel();
             BindingContext = vm;
             vm.CoordinatesAndTemperatureAreAvaliable += CoordinatesAndTemperatureAreAvaliable;
+            
         }
 
         private void CoordinatesAndTemperatureAreAvaliable(object sender, PinEventArgs e)
