@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using MapWeatherXamarin.Annotations;
+using MapWeatherXamarin.Models;
 using MapWeatherXamarin.Service.Weather;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -13,27 +13,25 @@ namespace MapWeatherXamarin.ViewModel
 {
     public class MainViewModel:INotifyPropertyChanged
     {
-        private IGeolocator _geolocator;
+        private readonly IGeolocator _geolocator;
         private double _latitude;
         private double _longitude;
         private string _temperature;
+        private Forecast _weather;
         private WeatherService _ws;
 
         public MainViewModel()
         {
-            GetCoordCommand = new Command(GetGeolocation);
             _geolocator = DependencyService.Get<IGeolocator>();
             _ws = new WeatherService();
+            GetGeolocation();
         }
-
-        public ICommand GetCoordCommand { get; private set; }
-
+        
         public double Longitude
         {
             get { return _longitude; }
             set { _longitude = value; OnPropertyChanged(); }
         }
-
 
         public double Latitude
         {
@@ -50,29 +48,34 @@ namespace MapWeatherXamarin.ViewModel
 
         async void GetGeolocation()
         {
-            var position = await _geolocator.GetPositionAsync(1000);
+            var position = await _geolocator.GetPositionAsync(5000);
             Longitude = position.Longitude;
             Latitude = position.Latitude;
-            var temperature = await GetWeather();
-            AddPin(temperature);
+            AddPin(await GetWeather());
         }
 
-        async Task<string> GetWeather()
-        {
-            var weather = await _ws.GetForecastForTodayByGeo(Latitude, Longitude);
-            return weather.Temperature.ToString();
-        }
-
-        private void AddPin(string temperature)
+        private void AddPin(Forecast weather)
         {
             var position = new Xamarin.Forms.Maps.Position(Latitude, Longitude);
+            var label = BuildLabel(weather.Temperature, weather.Humidity);
             CoordinatesAndTemperatureAreAvaliable?.Invoke(this, new PinEventArgs
             {
                 Type = PinType.Place,
                 Position = position,
-                Label = temperature,
+                Label = label,
                 Address = string.Empty
             });
+        }
+
+        async Task<Forecast> GetWeather()
+        {
+            return await _ws.GetForecastForTodayByGeo(Latitude, Longitude);
+        }
+
+
+        private string BuildLabel(double temperature, double humidity)
+        {
+            return $"Temperature: {temperature}°С, Humidity: {humidity}%";
         }
 
         [NotifyPropertyChangedInvocator]
