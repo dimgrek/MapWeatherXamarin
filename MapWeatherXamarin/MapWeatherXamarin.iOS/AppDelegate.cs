@@ -22,6 +22,7 @@ namespace MapWeatherXamarin.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Forms.Init();
+            Xamarin.FormsMaps.Init();
             DependencyService.Register<Geolocator>();
 
             LoadApplication(new App());

@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MapWeatherXamarin.Views.MainPage">
+  <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
   <StackLayout Padding="0,20,0,0">
     <Button Text="Get coordinates" Command="{Binding GetCoordCommand}" />
-    <Label Text="{Binding Latitude}"></Label>
-    <Label Text="{Binding Longitude}"></Label>
-    <!--<maps:Map WidthRequest="320" HeightRequest="200"
+    <Label Text="{Binding Latitude}" />
+    <Label Text="{Binding Longitude}" />
+    <maps:Map WidthRequest="320" HeightRequest="200"
           x:Name="MyMap"
           IsShowingUser="true"
           MapType="Hybrid"
-        />-->
+        />
   </StackLayout>
 </ContentPage>
