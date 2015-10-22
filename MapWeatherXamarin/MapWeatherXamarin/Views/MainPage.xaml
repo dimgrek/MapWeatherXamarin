@@ -4,10 +4,9 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MapWeatherXamarin.Views.MainPage">
   <StackLayout Padding="0,0,0,0">
-    <!--<Button Text="Get coordinates" Command="{Binding GetCoordCommand}" />-->
     <maps:Map 
           x:Name="MyMap"
           IsShowingUser="true"
-          MapType="Hybrid"/>
+          MapType="Hybrid" />
   </StackLayout>
 </ContentPage>

@@ -24,9 +24,9 @@ namespace MapWeatherXamarin.ViewModel
         {
             _geolocator = DependencyService.Get<IGeolocator>();
             _ws = new WeatherService();
-            GetGeolocation();
+            GetGeolocationAndWeather();
         }
-        
+
         public double Longitude
         {
             get { return _longitude; }
@@ -46,7 +46,7 @@ namespace MapWeatherXamarin.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<PinEventArgs> CoordinatesAndTemperatureAreAvaliable;
 
-        async void GetGeolocation()
+        async void GetGeolocationAndWeather()
         {
             var position = await _geolocator.GetPositionAsync(5000);
             Longitude = position.Longitude;

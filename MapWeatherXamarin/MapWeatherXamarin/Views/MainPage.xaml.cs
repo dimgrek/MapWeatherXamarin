@@ -17,12 +17,15 @@ namespace MapWeatherXamarin.Views
         {
             var pin = new Pin
             {
-                Type = PinType.Place,
+                Type = e.Type,
                 Position = e.Position,
                 Label = e.Label,
                 Address = e.Address
             };
             MyMap.Pins.Add(pin);
+            MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+                new Position(e.Position.Latitude, e.Position.Longitude),
+                Distance.FromKilometers(3)));
         }
     }
 }
