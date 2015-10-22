@@ -10,10 +10,10 @@ namespace MapWeatherXamarin.Views
             InitializeComponent();
             var vm = new MainViewModel();
             BindingContext = vm;
-            vm.AddPinToMap += AddPinToMap;
+            vm.CoordinatesAndTemperatureAreAvaliable += CoordinatesAndTemperatureAreAvaliable;
         }
 
-        private void AddPinToMap(object sender, PinEventArgs e)
+        private void CoordinatesAndTemperatureAreAvaliable(object sender, PinEventArgs e)
         {
             var pin = new Pin
             {

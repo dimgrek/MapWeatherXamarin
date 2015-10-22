@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MapWeatherXamarin.Annotations;
+using MapWeatherXamarin.Service.Weather;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using XLabs.Platform.Services.Geolocation;
@@ -15,11 +17,13 @@ namespace MapWeatherXamarin.ViewModel
         private double _latitude;
         private double _longitude;
         private string _temperature;
+        private WeatherService _ws;
 
         public MainViewModel()
         {
             GetCoordCommand = new Command(GetGeolocation);
             _geolocator = DependencyService.Get<IGeolocator>();
+            _ws = new WeatherService();
         }
 
         public ICommand GetCoordCommand { get; private set; }
@@ -42,24 +46,31 @@ namespace MapWeatherXamarin.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<PinEventArgs> AddPinToMap;
+        public event EventHandler<PinEventArgs> CoordinatesAndTemperatureAreAvaliable;
 
         async void GetGeolocation()
         {
             var position = await _geolocator.GetPositionAsync(1000);
             Longitude = position.Longitude;
             Latitude = position.Latitude;
-            AddPin();
+            var temperature = await GetWeather();
+            AddPin(temperature);
         }
 
-        private void AddPin()
+        async Task<string> GetWeather()
+        {
+            var weather = await _ws.GetForecastForTodayByGeo(Latitude, Longitude);
+            return weather.Temperature.ToString();
+        }
+
+        private void AddPin(string temperature)
         {
             var position = new Xamarin.Forms.Maps.Position(Latitude, Longitude);
-            AddPinToMap?.Invoke(this, new PinEventArgs
+            CoordinatesAndTemperatureAreAvaliable?.Invoke(this, new PinEventArgs
             {
                 Type = PinType.Place,
                 Position = position,
-                Label = _temperature,
+                Label = temperature,
                 Address = string.Empty
             });
         }

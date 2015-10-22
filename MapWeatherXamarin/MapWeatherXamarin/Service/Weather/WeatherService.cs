@@ -17,6 +17,10 @@ namespace MapWeatherXamarin.Service.Weather
         }
 
         private const string GetForecastUI = "http://api.openweathermap.org/data/2.5/forecast?q=";
+        private const string GetForecastByGeo = "http://api.openweathermap.org/data/2.5/forecast?";
+        private const string AppID = "&APPID=796fc5d2ebcbb4206a4f0ab759a0f904";
+        private const string Lat = "lat=";
+        private const string Lon = "lon=";
         private readonly IRestClient _restClient = new RestClient();
 
         public async Task<Forecast> GetForecastForToday(string city)
@@ -43,15 +47,30 @@ namespace MapWeatherXamarin.Service.Weather
             return Get(forecastResponce, Days.DayAfterAfterTomorrow);
         }
 
+        public async Task<Forecast> GetForecastForTodayByGeo(double latitude, double longitude)
+        {
+            var forecastResponce = await ReturnResponceByGeo(latitude, longitude);
+            return Get(forecastResponce, Days.Today);
+        }
 
-        public async Task<ForecastResponce> ReturnResponce(string city)
+
+        private async Task<ForecastResponce> ReturnResponce(string city)
         {
             var uri = GetForecastUI + city;
             var responce = await _restClient.GetAsync(uri);
             return JsonConvert.DeserializeObject<ForecastResponce>(responce);
         }
 
-        public static Forecast Get(ForecastResponce fr, Days day)
+        private async Task<ForecastResponce> ReturnResponceByGeo(double latitude, double longitude)
+        {
+            var latitudeRounded = Math.Round(latitude).ToString();
+            var longitudeRounded = Math.Round(longitude).ToString();
+            var uri = GetForecastByGeo + Lat + latitudeRounded + "&" + Lon + longitudeRounded + AppID;
+            var responce = await _restClient.GetAsync(uri);
+            return JsonConvert.DeserializeObject<ForecastResponce>(responce);
+        }
+
+        private static Forecast Get(ForecastResponce fr, Days day)
         {
 
             return new Forecast
