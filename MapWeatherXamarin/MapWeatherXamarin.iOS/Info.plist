@@ -22,8 +22,10 @@
     </array>
     <key>MinimumOSVersion</key>
     <string>6.0</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Can we use your location</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>You are about to use location!</string>
+    <string>We are using your location</string>
     <key>CFBundleDisplayName</key>
     <string>MapWeatherXamarin</string>
     <key>CFBundleIdentifier</key>

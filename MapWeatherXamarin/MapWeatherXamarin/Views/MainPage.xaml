@@ -6,8 +6,6 @@
   <Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
   <StackLayout Padding="0,20,0,0">
     <Button Text="Get coordinates" Command="{Binding GetCoordCommand}" />
-    <Label Text="{Binding Latitude}" />
-    <Label Text="{Binding Longitude}" />
     <maps:Map WidthRequest="320" HeightRequest="200"
           x:Name="MyMap"
           IsShowingUser="true"

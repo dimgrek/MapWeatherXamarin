@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MapWeatherXamarin.ViewModel;
+﻿using MapWeatherXamarin.ViewModel;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace MapWeatherXamarin.Views
 {
@@ -15,6 +11,19 @@ namespace MapWeatherXamarin.Views
             InitializeComponent();
             var vm = new MainViewModel();
             BindingContext = vm;
+            vm.AddPinToMap += AddPinToMap;
+        }
+
+        private void AddPinToMap(object sender, PinEventArgs e)
+        {
+            var pin = new Pin
+            {
+                Type = PinType.Place,
+                Position = e.Position,
+                Label = e.Label,
+                Address = e.Address
+            };
+            MyMap.Pins.Add(pin);
         }
     }
 }
